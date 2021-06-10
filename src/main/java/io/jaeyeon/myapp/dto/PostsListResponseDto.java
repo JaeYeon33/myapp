@@ -4,19 +4,24 @@ import io.jaeyeon.myapp.model.Posts;
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
-public class PostsResponseDto implements Serializable {
+public class PostsListResponseDto implements Serializable {
 
     private Long id;
     private String title;
-    private String content;
     private String author;
+    private LocalDateTime modifiedDate;
 
-    public PostsResponseDto(Posts entity) {
+    public String getLink() {
+        return "/posts/update/" + id;
+    }
+
+    public PostsListResponseDto(Posts entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
-        this.content = entity.getContent();
         this.author = entity.getAuthor();
+        this.modifiedDate = entity.getModifiedDate();
     }
 }
