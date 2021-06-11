@@ -1,38 +1,105 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head>
     <meta charset="UTF-8">
-    <title>My Application</title>
-<body>
-    <h1>Start! Web Service with Spring Boot Ver.2</h1>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
-                <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
-            </div>
+    <title>게시판</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <style>
+        .container p { display: inline }
+    </style>
+</head>
+<body class="container">
+
+<h1>스프링 부트 게시판</h1>
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/posts/save" role="button" class="btn" btn-primary>글 등록</a>
         </div>
-        <br>
-        <!-- 목록 출력 영역 -->
-        <table class="table table-horizontal table-bordered">
-            <thead class="thead-strong">
-            <tr>
-                <th>게시글 번호</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>최종수정일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="all : ${alls}">
-                <td th:text="${all.id}"></td>
-                <td th:text="${all.title}"></td>
-                <td th:text="${all.content}"></td>
-                <td th:text="${all.modifiedDate}"></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-    <!-- Footer -->
-    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<div style="height: 80px;">
+
+</div>
+
+<table class="table">
+    <tr>
+        <th>글 번호</th>
+        <th>글쓴이</th>
+        <th>글 제목</th>
+        <th>최종수정</th>
+    </tr>
+    <tr th:each="posts: ${posts}">
+        <td th:text="${posts.id}"></td>
+        <td>
+            <a th:href="${posts.link}" th:text="${posts.author}" />
+        </td>
+        <td>
+            <a th:href="${posts.link}" th:text="${posts.title}" />
+        </td>
+        <td th:text="${posts.modifiedDate}"></td>
+    </tr>
+</table>
+
+<div class="col-md-12">
+    <div class="col-md-4">
+        <form name="frm">
+            <input type="hidden" name="page" value="0">
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요." name="title" th:value="${title}" />
+            </div>
+        </form>
+
+        <button type="button" class="btn btn-primary" id="btn-search">검색</button>
+    </div>
+</div>
+
+<nav style="text-align: center;">
+    <ul class="pagination"
+        th:with="start=${T(Math).floor(posts.number/10)*10},
+                    last=(${start + 9 < posts.totalPages-1 ? start + 9 : posts.totalPages-1})">
+        <li>
+            <a th:onclick="|javascript:gotoPage(0)|" aria-label="First">
+                <span aria-hidden="true">First</span>
+            </a>
+        </li>
+
+        <li th:class="${posts.first} ? 'disabled'">
+            <a th:onclick="|javascript:gotoPage(${posts.number-1})|" aria-label="Previous">
+                <span aria-hidden="true"><</span>
+            </a>
+        </li>
+
+        <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == posts.number} ? 'active'">
+            <a th:text="${page+1}" th:onclick="|javascript:gotoPage(${page})|" ></a>
+        </li>
+
+        <li th:class="${posts.last} ? 'disabled'">
+            <a th:onclick="|javascript:gotoPage(${posts.number+1})|" aria-label="Next">
+                <span aria-hidden="true">></span>
+            </a>
+        </li>
+
+        <li>
+            <a th:onclick="|javascript:gotoPage(${posts.totalPages-1})|" aria-label="Last">
+                <span aria-hidden="true">Last</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script src="js/index.js"></script>
+<script>
+    function gotoPage(pg) {
+        document.frm.page.value = pg;
+        document.frm.submit();
+    }
+</script>
 </body>
 </html>
