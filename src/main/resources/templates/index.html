@@ -43,20 +43,6 @@
     </tr>
 </table>
 
-<div class="col-md-12">
-    <div class="col-md-4">
-        <form name="frm">
-            <input type="hidden" name="page" value="0">
-            <div class="form-group">
-                <label for="title">제목</label>
-                <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요." name="title" th:value="${title}" />
-            </div>
-        </form>
-
-        <button type="button" class="btn btn-primary" id="btn-search">검색</button>
-    </div>
-</div>
-
 <nav style="text-align: center;">
     <ul class="pagination"
         th:with="start=${T(Math).floor(posts.number/10)*10},

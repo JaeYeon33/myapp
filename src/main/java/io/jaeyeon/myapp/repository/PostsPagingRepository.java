@@ -10,6 +10,4 @@ public interface PostsPagingRepository extends JpaRepository<Posts, Long> {
 
     @Query(value = "SELECT p FROM Posts p ORDER BY p.id DESC")
     Page<Posts> findAllDesc(Pageable pageable);
-
-    Page<Posts> findByTitle(Pageable pageable, String title);
 }

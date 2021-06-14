@@ -24,15 +24,12 @@ public class IndexController {
     private final PostsPagingService postsPagingService;
 
     @GetMapping("/")
-    public String index(Model model, @PageableDefault Pageable pageable,
-                        @RequestParam(value = "title", required = false, defaultValue = "") String title) {
+    public String index(Model model, @PageableDefault Pageable pageable) {
         //model.addAttribute("posts", postsService.findAllDesc());
 
         // 페이지당 표시 게시글 수를 3개로 제한
         pageable = PageRequest.of(pageable.getPageNumber(), 3);
-//        model.addAttribute("posts", postsPagingService.findAllDesc(pageable));
-        model.addAttribute("posts", postsPagingService.findAllDesc(pageable, title));
-        model.addAttribute("title", title);
+        model.addAttribute("posts", postsPagingService.findAllDesc(pageable));
 
         return "index";
     }

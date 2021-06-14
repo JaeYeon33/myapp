@@ -18,18 +18,12 @@ public class PostsPagingService {
     private final PostsPagingRepository postsPagingRepository;
 
     @Transactional(readOnly = true)
-    public Page<PostsListResponseDto> findAllDesc(Pageable pageable, String title) {
-        Page<Posts> posts;
-        if ("".equals(title)) {
-            posts = postsPagingRepository.findAllDesc(pageable);
-        } else {
-            // 정렬순서 변경
-            Pageable p = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").descending());
-            posts = postsPagingRepository.findByTitle(p, title);
-        }
+    public Page<PostsListResponseDto> findAllDesc(Pageable pageable) {
+        Page<Posts> posts = postsPagingRepository.findAllDesc(pageable);
         List<PostsListResponseDto> results = posts.getContent().stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
+
         long totalCount = posts.getTotalElements();
 
         return new PageImpl<>(results, pageable, totalCount);
