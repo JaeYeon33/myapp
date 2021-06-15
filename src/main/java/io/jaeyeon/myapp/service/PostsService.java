@@ -27,10 +27,10 @@ public class PostsService {
     }
 
     @Transactional
-    public Long update(Long id, PostsUpdateRequestDto postsUpdateRequestDto) {
+    public Long update(Long id, PostsUpdateRequestDto requestDto) {
         Posts posts = getOne(id);
 
-        posts.update(postsUpdateRequestDto.getTitle(), postsUpdateRequestDto.getContent());
+        posts.update(requestDto.getTitle(), requestDto.getContent());
 
         return id;
     }

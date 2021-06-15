@@ -14,10 +14,6 @@ public class PostsListResponseDto implements Serializable {
     private String author;
     private LocalDateTime modifiedDate;
 
-    public String getLink() {
-        return "/posts/update/" + id;
-    }
-
     public PostsListResponseDto(Posts entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();

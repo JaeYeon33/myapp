@@ -21,9 +21,7 @@ public class PostsApiController {
 
     // 수정 API
     @PutMapping("/api/v1/posts/{id}")
-    public Long update(@PathVariable Long id,
-                       @RequestBody PostsUpdateRequestDto requestDto) {
-
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
         return postsService.update(id, requestDto);
     }
 
@@ -34,7 +32,7 @@ public class PostsApiController {
     }
 
     // 삭제 API
-    @DeleteMapping("/api/va/posts/{id}")
+    @DeleteMapping("/api/v1/posts/{id}")
     public Long delete(@PathVariable Long id) {
         postsService.delete(id);
         return id;

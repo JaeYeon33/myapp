@@ -18,13 +18,11 @@ class IndexControllerTest {
     @Autowired private TestRestTemplate restTemplate;
 
     @Test
-    public void mainPage() throws Exception {
+    public void main_test() throws Exception {
 
-        // when
         String body = this.restTemplate.getForObject("/", String.class);
 
-        // then
-        assertThat(body).contains("Start!, Web Service with Spring Boot Ver.2");
+        assertThat(body).contains("Start, Spring Boot Web Service !");
     }
 
 }
