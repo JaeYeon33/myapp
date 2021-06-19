@@ -31,19 +31,26 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
+        // registrationId
         // 현재 로그인 진행 중인 서비스를 구분하는 코드
+        // 네이버 로그인인지, 구글 로그인인지 구분하기 위해 상요한다.
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        // OAuth2 로그인 진행 시 키가 되는 필드값
+        // userNameAttributeName
+        // OAuth2 로그인 진행 시 키가 되는 필드값을 말한다. PK와 같은 값을 의미한다.
+        // 구글의 경우 기본적으로 코드를 지원한다. 구글의 기본 코드는 "sub"이다.
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
 
-        // OAuthAttributes : attribute를 담을 클래스 (개발자가 생성)
+        // OAuthAttributes
+        // OAuth2UserService를 통해 가져온 OAuth2User의 attributes를 담을 클래스이다.
+        // 다른 소셜 로그인도 이 클래스를 사용한다.
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
-        User user = saveOrUpdate(attributes);
 
         // SessionUser : 세션에 사용자 정보를 저장하기 위한 DTO 클래스 (개발자가 생성)
+        // 세션에 사용자 정보를 저장하기 위한 따로 만든 Dto 클래스이다.
+        User user = saveOrUpdate(attributes);
         httpSession.setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(
