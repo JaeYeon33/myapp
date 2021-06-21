@@ -4,6 +4,7 @@ package io.jaeyeon.myapp.controller;
 import io.jaeyeon.myapp.config.dto.LoginUser;
 import io.jaeyeon.myapp.config.dto.SessionUser;
 import io.jaeyeon.myapp.dto.PostsResponseDto;
+import io.jaeyeon.myapp.dto.PostsSaveRequestDto;
 import io.jaeyeon.myapp.service.PostsPagingService;
 import io.jaeyeon.myapp.service.PostsService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
@@ -45,6 +47,14 @@ public class IndexController {
     public String postsSave() {
         return "posts-save";
     }
+
+
+    @PostMapping("/posts/save")
+    public String postsWrite(PostsSaveRequestDto requestDto) {
+        postsService.save(requestDto);
+        return "redirect:/";
+    }
+
 
 
     @GetMapping("/posts/update/{id}")
