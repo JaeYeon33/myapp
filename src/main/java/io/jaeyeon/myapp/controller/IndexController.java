@@ -8,6 +8,7 @@ import io.jaeyeon.myapp.dto.PostsSaveRequestDto;
 import io.jaeyeon.myapp.service.PostsPagingService;
 import io.jaeyeon.myapp.service.PostsService;
 import lombok.RequiredArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +55,6 @@ public class IndexController {
         postsService.save(requestDto);
         return "redirect:/";
     }
-
 
 
     @GetMapping("/posts/update/{id}")
